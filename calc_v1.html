@@ -207,7 +207,12 @@
 
     try {
       // 화면을 더 선명하게 하기 위해 scale 2 배
-      const canvas = await html2canvas(target, { scale: 2 });
+      const canvas = await html2canvas(target, {
+        scale: 2,
+        useCORS: true,
+        scrollY: -window.scrollY, 
+        backgroundColor: null
+      });
 
       // 클립보드 지원 여부 확인
       if (navigator.clipboard && window.ClipboardItem) {
