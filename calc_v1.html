@@ -78,6 +78,26 @@
   .result {
     font-weight: 600;
     font-size: 14px;
+
+  #capture-btn {
+  margin-top: 12px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: #111827;
+  color: var(--text);
+  font-size: 14px;
+  cursor: pointer;
+}
+#capture-btn:hover {
+  background: #1f2937;
+}
+#capture-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+
   }
 </style>
 
@@ -85,78 +105,81 @@
 <body>
 
 <h1>제품 가격 & 물류 정보 계산기 (심비오시스 내부용)</h1>
-
-<div class="section">
-  <h2>B. 제품 가격 & 물류 정보</h2>
-
-  <div class="row">
-    <label for="productPriceYuan">제품 개당 가격 (위안)</label>
-    <input type="number" id="productPriceYuan" value="0" step="0.01">
+<!-- 캡쳐 대상 영역 전체를 이 div로 감싸기 -->
+<div id="capture-area">
+  
+  <div class="section">
+    <h2>B. 제품 가격 & 물류 정보</h2>
+  
+    <div class="row">
+      <label for="productPriceYuan">제품 개당 가격 (위안)</label>
+      <input type="number" id="productPriceYuan" value="0" step="0.01">
+    </div>
+  
+    <div class="row">
+      <label for="qtyPerBox">박스당 수량 (개)</label>
+      <input type="number" id="qtyPerBox" value="0">
+    </div>
+  
+    <div class="row">
+      <label for="boxCount">박스 수량 (박스)</label>
+      <input type="number" id="boxCount" value="0">
+    </div>
+  
+    <div class="row">
+      <label for="cbm">CBM (체적 m³)</label>
+      <input type="number" id="cbm" value="0" step="0.0001">
+    </div>
+  
+    <div class="row">
+      <label for="seaFreight">해운비 (원)</label>
+      <input type="number" id="seaFreight" value="0">
+    </div>
+  
+    <div class="row">
+      <label for="krDomestic">한국 내륙운송비 (원)</label>
+      <input type="number" id="krDomestic" value="0">
+    </div>
+  
+    <div class="row">
+      <label for="exchangeRate">환율 (원/위안)</label>
+      <input type="number" id="exchangeRate" value="200">
+    </div>
+  
+    <div class="row">
+      <label for="tariffRate">관세율 (%)</label>
+      <input type="number" id="tariffRate" value="8">
+    </div>
+  
   </div>
-
-  <div class="row">
-    <label for="qtyPerBox">박스당 수량 (개)</label>
-    <input type="number" id="qtyPerBox" value="0">
-  </div>
-
-  <div class="row">
-    <label for="boxCount">박스 수량 (박스)</label>
-    <input type="number" id="boxCount" value="0">
-  </div>
-
-  <div class="row">
-    <label for="cbm">CBM (체적 m³)</label>
-    <input type="number" id="cbm" value="0" step="0.0001">
-  </div>
-
-  <div class="row">
-    <label for="seaFreight">해운비 (원)</label>
-    <input type="number" id="seaFreight" value="0">
-  </div>
-
-  <div class="row">
-    <label for="krDomestic">한국 내륙운송비 (원)</label>
-    <input type="number" id="krDomestic" value="0">
-  </div>
-
-  <div class="row">
-    <label for="exchangeRate">환율 (원/위안)</label>
-    <input type="number" id="exchangeRate" value="200">
-  </div>
-
-  <div class="row">
-    <label for="tariffRate">관세율 (%)</label>
-    <input type="number" id="tariffRate" value="8">
-  </div>
-
-</div>
-
-<div class="section">
-  <h2>결과</h2>
-
-  <div class="row">
-    <label>총 수량 (개)</label>
-    <div class="result" id="totalQty">0 개</div>
-  </div>
-
-  <div class="row">
-    <label>상품 금액 합계 (원)</label>
-    <div class="result" id="totalProductWon">0 원</div>
-  </div>
-
-  <div class="row">
-    <label>관세 (원)</label>
-    <div class="result" id="tariffWon">0 원</div>
-  </div>
-
-  <div class="row">
-    <label>총 원가 (상품+관세+운송비, 원)</label>
-    <div class="result" id="totalCostWon">0 원</div>
-  </div>
-
-  <div class="row">
-    <label>개당 원가 (원/개)</label>
-    <div class="result" id="unitCostWon">0 원</div>
+  
+  <div class="section">
+    <h2>결과</h2>
+  
+    <div class="row">
+      <label>총 수량 (개)</label>
+      <div class="result" id="totalQty">0 개</div>
+    </div>
+  
+    <div class="row">
+      <label>상품 금액 합계 (원)</label>
+      <div class="result" id="totalProductWon">0 원</div>
+    </div>
+  
+    <div class="row">
+      <label>관세 (원)</label>
+      <div class="result" id="tariffWon">0 원</div>
+    </div>
+  
+    <div class="row">
+      <label>총 원가 (상품+관세+운송비, 원)</label>
+      <div class="result" id="totalCostWon">0 원</div>
+    </div>
+  
+    <div class="row">
+      <label>개당 원가 (원/개)</label>
+      <div class="result" id="unitCostWon">0 원</div>
+    </div>
   </div>
 </div>
 
@@ -208,6 +231,58 @@
   // 초기 계산
   calculate();
 </script>
+<!-- html2canvas 라이브러리 (CDN에서 불러옴) -->
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
+<script>
+  const captureBtn = document.getElementById('capture-btn');
+
+  captureBtn.addEventListener('click', async () => {
+    const target = document.getElementById('capture-area');
+    if (!target) return;
+
+    captureBtn.disabled = true;
+    captureBtn.textContent = '캡쳐 중...';
+
+    try {
+      // 화면을 더 선명하게 하기 위해 scale 2 배
+      const canvas = await html2canvas(target, { scale: 2 });
+
+      // 클립보드 지원 여부 확인
+      if (navigator.clipboard && window.ClipboardItem) {
+        const blob = await new Promise(resolve =>
+          canvas.toBlob(resolve, 'image/png')
+        );
+
+        await navigator.clipboard.write([
+          new ClipboardItem({ 'image/png': blob })
+        ]);
+
+        captureBtn.textContent = '클립보드로 복사 완료!';
+      } else {
+        // 클립보드가 안 되는 브라우저에서는 다운로드로 대체
+        const link = document.createElement('a');
+        link.download = 'calculator_capture.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+        captureBtn.textContent = '이미지 다운로드 완료!';
+      }
+
+      setTimeout(() => {
+        captureBtn.textContent = '현재 화면 캡쳐하기';
+      }, 1500);
+    } catch (e) {
+      console.error(e);
+      alert('캡쳐 중 오류가 발생했습니다. (브라우저 권한/호환성 문제일 수 있어요)');
+      captureBtn.textContent = '현재 화면 캡쳐하기';
+    } finally {
+      captureBtn.disabled = false;
+    }
+  });
+</script>
+
+  
 </body>
+
+  
 </html>
